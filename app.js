@@ -31,9 +31,7 @@ app.get('/api', (req, res) => {
 app.use('/api/essay', require('./src/router/essay_handle'));
 
 // 访问账户路由
-app.get('/api/account', (req, res) => {
-    res.send('account');
-});
+app.use('/api/account', require('./src/router/account_handle'));
 
 // 访问评论路由
 app.get('/api/comment', (req, res) => {
