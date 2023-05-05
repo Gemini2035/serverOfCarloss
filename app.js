@@ -1,27 +1,50 @@
-const url = require('url');
+//index.js文件
+const express = require('express'); // 引入express
+const bodyParser = require('body-parser');
+const app = express(); // 相当于 http.createServer(app)
+const PORT = 3000;
+const ADDRESS = '127.0.0.1';
 
-const { BUSINESSTYPE } = require('./src/template/basic');
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
 
-const serverHandler = (req, res) => {
-  // 设置相应格式
-  res.setHeader("Content-Type", "application/json");
+// parse application/json
+app.use(bodyParser.json())
 
-  //  获取path
-  const reqUrl = req.url;
-  req.path = reqUrl.split("?")[0];
-  //   解析query
-  req.query = url.parse(reqUrl, true).query;
-  // 判断业务逻辑
-  for (let i = 0; i < BUSINESSTYPE.length; i++) {
-    if (reqUrl.indexOf(BUSINESSTYPE[i].name) !== -1) {
-      mt = reqUrl.split(BUSINESSTYPE[i].name)[1];
-      BUSINESSTYPE[i].handler(req, res, {httpMethod: req.method, methodType: mt});
-      break;
-    }
-  }
+//----- 配置跨域 -----
+// express框架解决跨域问题的代码，注意该代码要放在 app.use(router); 之前
+app.all("*", (req, res, next) => {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "X-Requested-With");
+	res.header("Access-Control-Allow-Methods", "POST,GET");
+	res.header("X-Powered-By", "Express");
+	res.header("Content-Type", "application/json;charset=utf-8");
+	next();
+});
+ 
+// 访问根路由
+app.get('/api', (req, res) => {
+	res.send(`Here is server of Carloss's blog. Welcome!`);
+});
 
-  // res.end(JSON.stringify(responseData));
-};
+// 访问文章路由
+app.use('/api/essay', require('./src/router/essay_handle'));
 
-module.exports = serverHandler;
+// 访问账户路由
+app.get('/api/account', (req, res) => {
+    res.send('account');
+});
 
+// 访问评论路由
+app.get('/api/comment', (req, res) => {
+    res.send('comment');
+});
+
+ 
+// 监听端口
+const server = app.listen(PORT, ADDRESS, () => {
+	let host = server.address().address // host域
+	let port = server.address().port // 端口号
+	
+	console.log(`Server running at http://${host}:${port}`)
+});
