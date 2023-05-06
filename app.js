@@ -34,9 +34,7 @@ app.use('/api/essay', require('./src/router/essay_handle'));
 app.use('/api/account', require('./src/router/account_handle'));
 
 // 访问评论路由
-app.get('/api/comment', (req, res) => {
-    res.send('comment');
-});
+app.use('/api/comment', require('./src/router/comment_handle'));
 
  
 // 监听端口
