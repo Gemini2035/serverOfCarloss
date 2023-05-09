@@ -32,12 +32,12 @@ router.get('/detail', (req, res) => {
     const { essayId } = url.parse(req.url, true).query;
     getEssayDetail(essayId)
     .then(response => {
-        const message = `已成功获取文章id为: ${essayId} 的详细信息`;
+        const message = `Successfully obtained detailed information for article id: ${essayId}`;
         const options = {
             dotfiles: 'deny',
             headers: {
               'x-sent': true,
-              'x-detail-info': new SuccessModel(response, message) // your custom header here
+              'x-detail-info': JSON.stringify(new SuccessModel(response, message)) // your custom header here
             }
           }
         const abusolutePath = path.join(__dirname, '../../', response.filePath);

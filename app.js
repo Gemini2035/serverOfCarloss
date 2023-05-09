@@ -17,6 +17,7 @@ app.all("*", (req, res, next) => {
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	res.header("Access-Control-Allow-Methods", "POST,GET");
+	res.header("Access-Control-Expose-Headers", "x-detail-info")
 	res.header("X-Powered-By", "Express");
 	res.header("Content-Type", "application/json;charset=utf-8");
 	next();
@@ -35,6 +36,9 @@ app.use('/api/account', require('./src/router/account_handle'));
 
 // 访问评论路由
 app.use('/api/comment', require('./src/router/comment_handle'));
+
+// 获取文本路由
+app.use('/api/text', require('./src/router/text_handle'));
 
  
 // 监听端口
