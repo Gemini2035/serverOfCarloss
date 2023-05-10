@@ -1,10 +1,8 @@
 const express = require('express');
 const url = require('url');
-const formidable = require('formidable');
 const path = require('path');
 
 const { SuccessModel, ErrorModel } = require('../model/responseModel');
-const { getSomeEssay, getEssayDetail, deleteEssay, addEssay } = require('../controller/essay_controller');
 
 const router = express.Router();
 
@@ -16,7 +14,8 @@ router.post('/', (req, res) => {
 });
 
 router.get('/get', (req, res) => {
-    const url = 'src/json/text.json';
+    const { name } = url.parse(req.url, true).query;
+    const fileUrl = `src/json/self_part/${name}.json`;
     const message = `Successfully obtained website text information!`;
         const options = {
             dotfiles: 'deny',
@@ -25,7 +24,7 @@ router.get('/get', (req, res) => {
               'x-detail-info': JSON.stringify(new SuccessModel(message)) // your custom header here
             }
           }
-        const abusolutePath = path.join(__dirname, '../../', url);
+        const abusolutePath = path.join(__dirname, '../../', fileUrl);
         res.sendFile(abusolutePath, options, error => {
             if (error) res.send(new ErrorModel(`发送文件失败，错误代码: ${error.statusCode}`));
         });

@@ -1,0 +1,32 @@
+[
+    {
+        "name": "QQ",
+        "id": "qq",
+        "content": "2530056984"
+    },
+    {
+        "name": "微信",
+        "id": "weChat",
+        "content": "Z2530056984"
+    },
+    {
+        "name": "163邮",
+        "id": "163",
+        "content": "z2530056984@163.com"
+    },
+    {
+        "name": "github",
+        "id": "github",
+        "content": "Gemini2035"
+    },
+    {
+        "name": "gmail",
+        "id": "google",
+        "content": "gemeni10234@gmail"
+    },
+    {
+        "name": "Twitter",
+        "id": "twitter",
+        "content": "Z2530056984"
+    }
+]
