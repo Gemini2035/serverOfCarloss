@@ -3,6 +3,7 @@ const url = require('url');
 const path = require('path');
 
 const { SuccessModel, ErrorModel } = require('../model/responseModel');
+const { siteSpider } = require('../controller/text_controller')
 
 const router = express.Router();
 
@@ -15,7 +16,7 @@ router.post('/', (req, res) => {
 
 router.get('/get', (req, res) => {
     const { name } = url.parse(req.url, true).query;
-    const fileUrl = `src/json/self_part/${name}.json`;
+    const fileUrl = `src/json/${name}.json`;
     const message = `Successfully obtained website text information!`;
         const options = {
             dotfiles: 'deny',
@@ -28,6 +29,16 @@ router.get('/get', (req, res) => {
         res.sendFile(abusolutePath, options, error => {
             if (error) res.send(new ErrorModel(`发送文件失败，错误代码: ${error.statusCode}`));
         });
+})
+
+router.get('/sitelanguage', (req, res) => {
+    siteSpider()
+    .then(response => {
+        res.send(new SuccessModel(response));
+    })
+    .catch(error => {
+        res.send(new ErrorModel(error));
+    })
 })
 
 module.exports = router;
